@@ -1,65 +1,329 @@
-import Image from "next/image";
+import { 
+  Github, 
+  ExternalLink, 
+  Code2, 
+  Palette, 
+  Database,
+  Globe,
+  Mail,
+  Linkedin,
+  ArrowRight,
+  Star,
+} from 'lucide-react';
+import Image from 'next/image';
+import ContactForm from '@/components/ContactForm'; // Adjust path if your components folder is elsewhere
 
-export default function Home() {
+// 1. Define the exact shape of your data for TypeScript
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  tech: string[];
+  status: string;
+  image: string;
+  link: string;
+  github: string;
+  highlights: string[];
+}
+
+interface Skill {
+  category: string;
+  icon: React.ReactNode;
+  technologies: string[];
+}
+
+export default function StackBuildr() {
+  // Removed the unused `activeProject` state to clear the ESLint warning
+
+  const projects: Project[] = [
+    {
+      id: 1,
+      title: "A/C & Heating Small Business Website",
+      description: "A modern, responsive website for a local A/C & Heating business, showcasing services and driving customer engagement.",
+      tech: ["Next.js", "React", "Tailwind CSS", "Node.js"],
+      status: "In Development",
+      image: "🔄",
+      link: "#",
+      github: "#",
+      highlights: ["Faster rendering", "No clutter UI", "Mobile first design"]
+    },
+    {
+      id: 2,
+      title: "StackBuildr Portfolio",
+      description: "Modern, responsive portfolio showcasing development projects with seamless user experience.",
+      tech: ["Next.js", "Vercel Analytics", "Tailwind CSS"],
+      status: "Live",
+      image: "🚀",
+      link: "/",
+      github: "https://github.com/ambxrp/stackbuildr-freelance",
+      highlights: ["Server-side rendering", "Optimized performance", "SEO optimized"]
+    },
+    {
+      id: 3,
+      title: "Coming Soon",
+      description: "New projects in the planning phase. Stay tuned for updates!",
+      tech: ["TBD"],
+      status: "Planning",
+      image: "💡",
+      link: "#",
+      github: "#",
+      highlights: ["Innovation focused", "Exploring new ideas"]
+    }
+  ];
+
+  const skills: Skill[] = [
+    {
+      category: "Frontend",
+      icon: <Code2 className="w-6 h-6" />,
+      technologies: ["React", "Next.js", "JavaScript", "TypeScript", "HTML5", "CSS"]
+    },
+    {
+      category: "Styling",
+      icon: <Palette className="w-6 h-6" />,
+      technologies: ["Tailwind CSS", "CSS", "Styled Components", "Responsive Design"]
+    },
+    {
+      category: "Backend",
+      icon: <Database className="w-6 h-6" />,
+      technologies: ["Node.js", "API Routes", "Firebase", "Java/SpringBoot", "Python", "Supabase", "GCP", "AWS", "SQL"]
+    },
+    {
+      category: "Tools & Deployment",
+      icon: <Globe className="w-6 h-6" />,
+      technologies: ["Git", "GitHub", "Vercel", "VS Code", "npm", "DevOps", "Agile", "CI/CD"]
+    }
+  ];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="min-h-screen bg-black">
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 bg-black border-b border-gray-800">
+        <div className="max-w-6xl mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="text-2xl font-bold text-white">
+              Stack<span className="text-purple-400">Buildr</span>
+            </div>
+            <div className="flex gap-6">
+              <a href="#projects" className="text-gray-300 hover:text-white transition-colors">Projects</a>
+              <a href="#skills" className="text-gray-300 hover:text-white transition-colors">Skills</a>
+              <a href="#contact" className="text-gray-300 hover:text-white transition-colors">Contact</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="max-w-6xl mx-auto px-6 py-20">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h1 className="text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+              Building the
+              <span className="text-purple-400"> future </span>
+              one stack at a time
+            </h1>
+            
+            {/* Escaped apostrophes with &apos; */}
+            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+              I am a full stack developer crafting modern web experiences with new and emerging technologies. 
+              Currently focused on building innovative apps that solve real world problems and continuing my studies!
+            </p>
+
+            <div className="flex flex-wrap gap-4 mb-8">
+              <a 
+                href="#projects"
+                className="bg-purple-400 hover:bg-purple-500 text-black font-semibold py-3 px-6 rounded-full transition-all duration-200 flex items-center gap-2"
+              >
+                View My Work <ArrowRight className="w-5 h-5" />
+              </a>
+              <a 
+                href="#contact" // Updated to anchor down to the new form
+                className="bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-semibold py-3 px-6 rounded-full transition-all duration-200 flex items-center gap-2"
+              >
+                <Mail className="w-5 h-5" /> Get In Touch
+              </a>
+            </div>
+
+            {/* Social Links */}
+            <div className="flex gap-4">
+              <a href="https://github.com/ambxrp" className="text-gray-400 hover:text-white transition-colors">
+                <Github className="w-6 h-6" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Linkedin className="w-6 h-6" />
+              </a>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="bg-gray-800 border border-gray-700 rounded-3xl p-8">
+              <div className="text-center mb-6">
+                {/* Updated image syntax from previous fix */}
+                <div className="w-24 h-24 bg-purple-400 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl overflow-hidden">
+                    <Image 
+                    src="/amber-photo.png" 
+                    alt="Profile Picture" 
+                    width={96} 
+                    height={96} 
+                    className="object-cover object-top w-full h-full"
+                   />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">Amber Parker</h3>
+                <p className="text-purple-400">Full Stack Developer</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Current Projects Section */}
+      <section id="projects" className="max-w-6xl mx-auto px-6 py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-white mb-4">Current Projects</h2>
+          {/* Escaped apostrophes with &apos; */}
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            Here&apos;s what I&apos;m currently building and the technologies I&apos;m working with
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="grid gap-8">
+          {/* Typed parameters in .map() */}
+          {projects.map((project: Project) => (
+            <div 
+              key={project.id}
+              className="bg-gray-800 border border-gray-700 rounded-3xl p-8 hover:border-purple-400 transition-all duration-300"
+            >
+              <div className="grid lg:grid-cols-3 gap-8 items-center">
+                <div className="lg:col-span-2">
+                  <div className="flex items-center gap-4 mb-4">
+                    <span className="text-4xl">{project.image}</span>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white">{project.title}</h3>
+                      <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+                        project.status === 'Live' ? 'bg-green-900 text-green-300' :
+                        project.status === 'In Development' ? 'bg-blue-900 text-blue-300' :
+                        'bg-gray-700 text-gray-300'
+                      }`}>
+                        {project.status}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <p className="text-gray-300 mb-4">{project.description}</p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tech.map((tech: string) => (
+                      <span 
+                        key={tech}
+                        className="bg-purple-900 text-purple-300 px-3 py-1 rounded-full text-sm"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  <ul className="space-y-2 mb-6">
+                    {project.highlights.map((highlight: string, idx: number) => (
+                      <li key={idx} className="flex items-center gap-2 text-gray-300">
+                        <Star className="w-4 h-4 text-purple-400" />
+                        {highlight}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  {project.link !== '#' && (
+                    <a 
+                      href={project.link}
+                      className="bg-purple-400 hover:bg-purple-500 text-black font-semibold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
+                    >
+                      <ExternalLink className="w-5 h-5" />
+                      View Project
+                    </a>
+                  )}
+                  {project.github !== '#' && (
+                    <a 
+                      href={project.github}
+                      className="bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
+                    >
+                      <Github className="w-5 h-5" />
+                      Source Code
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-      </main>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="max-w-6xl mx-auto px-6 py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-white mb-4">Technical Skills</h2>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            The technologies and tools I use to bring ideas to life
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Typed parameters in .map() */}
+          {skills.map((skill: Skill) => (
+            <div 
+              key={skill.category}
+              className="bg-gray-800 border border-gray-700 rounded-2xl p-6 hover:border-purple-400 transition-all duration-300"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="text-purple-400">
+                  {skill.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-white">{skill.category}</h3>
+              </div>
+              
+              <div className="space-y-2">
+                {skill.technologies.map((tech: string) => (
+                  <div 
+                    key={tech}
+                    className="text-gray-300 py-1 px-3 bg-gray-700 rounded-lg text-sm"
+                  >
+                    {tech}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Contact Section - Now using the integrated Turnstile Component */}
+      <section id="contact" className="max-w-6xl mx-auto px-6 py-20">
+        <div className="bg-gray-800 border border-gray-700 rounded-3xl p-12">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl font-bold text-white mb-4">Let&apos;s Build Something Amazing</h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              Have an exciting project in mind? I&apos;m always interested in discussing new opportunities and innovative ideas.
+            </p>
+          </div>
+          
+          {/* Injected Contact Form Here */}
+          <div className="max-w-md mx-auto">
+            <ContactForm />
+          </div>
+          
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-800 mt-20 py-8">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <div className="text-2xl font-bold text-white mb-4">
+            Stack<span className="text-purple-400">Buildr</span>
+          </div>
+          <p className="text-gray-400">
+            © {new Date().getFullYear()} StackBuildr. Building the future, one project at a time.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
