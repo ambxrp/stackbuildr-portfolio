@@ -15,12 +15,12 @@ const geistMono = Geist_Mono({
 
 // Strictly typing the metadata object
 export const metadata: Metadata = {
-  title: "StackBuildr - Amber Parker | Full-Stack Developer",
-  description: "StackBuildr: Modern web development with cutting-edge technologies. Building innovative apps and experiences with React, Next.js, and more.",
+  title: "StackBuildr - Amber Parker | Full Stack Developer",
+  description: "StackBuildr: Modern web development with cutting edge technologies. Building innovative apps and experiences with React, Next.js, and more.",
   keywords: "full-stack developer, React, Next.js, web development, JavaScript, TypeScript, modern web apps",
   authors: [{ name: "Amber Parker" }], // 'author' is deprecated in modern Next.js metadata, use 'authors' array
   openGraph: {
-    title: "StackBuildr - Full-Stack Developer",
+    title: "StackBuildr - Full Stack Developer",
     description: "Building the future one stack at a time. Modern web development with React, Next.js, and cutting-edge technologies.",
     type: "website",
     url: "https://stackbuildr.com",
@@ -30,14 +30,6 @@ export const metadata: Metadata = {
     title: "StackBuildr - Full-Stack Developer",
     description: "Building modern web experiences with cutting-edge technologies.",
   },
-  icons: {
-    icon: [
-      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
-      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
-    ],
-    apple: "/apple-touch-icon.png",
-  },
-  manifest: "/site.webmanifest",
 };
 
 // Typing the layout props
