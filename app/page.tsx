@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { 
   ExternalLink, 
   Code2, 
@@ -7,9 +10,23 @@ import {
   Mail,
   ArrowRight,
   Star,
+  Cpu,
+  Layers,
+  Sparkles,
+  Terminal as TerminalIcon
 } from 'lucide-react';
 import Image from 'next/image';
-import ContactForm from '@/components/ContactForm'; // Adjust path if your components folder is elsewhere
+
+// Component Imports
+import ContactForm from '@/components/ContactForm';
+import InteractiveBackground from '@/components/InteractiveBackground';
+import CustomCursor from '@/components/CustomCursor';
+import BuildConsole from '@/components/BuildConsole';
+import PhotoViewer from '@/components/PhotoViewer';
+import BaklavaQueenSimulator from '@/components/BaklavaQueenSimulator';
+import ThermostatSimulator from '@/components/ThermostatSimulator';
+import NodeGraph from '@/components/NodeGraph';
+import ScrambleText from '@/components/ScrambleText';
 
 const Github = ({ className }: { className?: string }) => (
   <svg
@@ -48,19 +65,6 @@ const Linkedin = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// 1. Define the exact shape of your data for TypeScript
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  tech: string[];
-  status: string;
-  image: string;
-  link: string;
-  github: string;
-  highlights: string[];
-}
-
 interface Skill {
   category: string;
   icon: React.ReactNode;
@@ -68,258 +72,349 @@ interface Skill {
 }
 
 export default function StackBuildr() {
-  // Removed the unused `activeProject` state to clear the ESLint warning
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  const projects: Project[] = [
-    {
-      id: 1,
-      title: "A/C & Heating Small Business Website",
-      description: "A modern, responsive website for a local A/C & Heating business, showcasing services and driving customer engagement.",
-      tech: ["Next.js", "React", "Tailwind CSS", "Node.js"],
-      status: "In Development",
-      image: "🔄",
-      link: "#",
-      github: "#",
-      highlights: ["Faster rendering", "No clutter UI", "Mobile first design"]
-    },
-    {
-      id: 2,
-      title: "StackBuildr Portfolio",
-      description: "Modern, responsive portfolio showcasing development projects with seamless user experience.",
-      tech: ["Next.js", "Vercel Analytics", "Tailwind CSS"],
-      status: "Live",
-      image: "🚀",
-      link: "/",
-      github: "https://github.com/ambxrp/stackbuildr-freelance",
-      highlights: ["Server-side rendering", "Optimized performance", "SEO optimized"]
-    },
-    {
-      id: 3,
-      title: "Coming Soon",
-      description: "New projects in the planning phase. Stay tuned for updates!",
-      tech: ["TBD"],
-      status: "Planning",
-      image: "💡",
-      link: "#",
-      github: "#",
-      highlights: ["Innovation focused", "Exploring new ideas"]
-    }
-  ];
+  useEffect(() => {
+    // 1. Scroll Progress Handler
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      setScrollProgress(progress);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // 2. IntersectionObserver for Reveal Animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-active');
+            observer.unobserve(entry.target); // trigger once
+          }
+        });
+      },
+      { threshold: 0.05, rootMargin: '0px 0px -30px 0px' }
+    );
+
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    revealElements.forEach((el) => {
+      // Safely apply reveal-init styles only when JS runs on the client
+      el.classList.add('reveal-init');
+      observer.observe(el);
+    });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      revealElements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
 
   const skills: Skill[] = [
     {
       category: "Frontend",
-      icon: <Code2 className="w-6 h-6" />,
-      technologies: ["React", "Next.js", "JavaScript", "TypeScript", "HTML5", "CSS"]
-    },
-    {
-      category: "Styling",
-      icon: <Palette className="w-6 h-6" />,
-      technologies: ["Tailwind CSS", "CSS", "Styled Components", "Responsive Design"]
+      icon: <Code2 className="w-5 h-5 text-purple-400" />,
+      technologies: ["React 19", "Next.js", "TypeScript", "JavaScript", "HTML5 Canvas", "Tailwind CSS"]
     },
     {
       category: "Backend",
-      icon: <Database className="w-6 h-6" />,
-      technologies: ["Node.js", "API Routes", "Firebase", "Java/SpringBoot", "Python", "Supabase", "GCP", "AWS", "SQL"]
+      icon: <Database className="w-5 h-5 text-cyan-400" />,
+      technologies: ["Node.js", "Supabase", "REST APIs", "Firebase", "PostgreSQL", "SQL databases", "Java and Spring Boot"]
     },
     {
-      category: "Tools & Deployment",
-      icon: <Globe className="w-6 h-6" />,
-      technologies: ["Git", "GitHub", "Vercel", "VS Code", "npm", "DevOps", "Agile", "CI/CD"]
+      category: "Design and layout",
+      icon: <Palette className="w-5 h-5 text-pink-400" />,
+      technologies: ["CSS animations", "Responsive design", "Glassmorphic styling", "Tailwind CSS"]
+    },
+    {
+      category: "Tools",
+      icon: <Globe className="w-5 h-5 text-emerald-400" />,
+      technologies: ["Git and GitHub", "Square SDK", "Resend API", "Vercel", "Continuous deployment"]
     }
   ];
 
   return (
-    <div className="min-h-screen bg-black">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-black border-b border-gray-800">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold text-white">
-              Stack<span className="text-purple-400">Buildr</span>
-            </div>
-            <div className="flex gap-6">
-              <a href="#projects" className="text-gray-300 hover:text-white transition-colors">Projects</a>
-              <a href="#skills" className="text-gray-300 hover:text-white transition-colors">Skills</a>
-              <a href="#contact" className="text-gray-300 hover:text-white transition-colors">Contact</a>
-            </div>
+    <div className="relative min-h-screen text-white select-none selection:bg-purple-500/30 selection:text-white">
+      {/* Interactive Canvas Background */}
+      <InteractiveBackground />
+
+      {/* Custom Follower Cursor */}
+      <CustomCursor />
+
+      {/* Scroll Progress Indicator */}
+      <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
+
+      {/* Floating Blueprint Grids */}
+      <div className="absolute inset-0 grid-bg pointer-events-none z-0" />
+
+      {/* Navigation Header */}
+      <nav className="sticky top-0 z-40 w-full border-b border-purple-500/10 bg-black/60 backdrop-blur-md">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
+          <div className="text-base sm:text-xl font-mono font-bold tracking-wider text-white flex items-center gap-1.5 sm:gap-2 select-none">
+            <Cpu className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 animate-pulse" />
+            Stack<span className="text-cyan-400">Buildr</span>
+          </div>
+          <div className="flex gap-3 sm:gap-6 font-mono text-[10px] sm:text-xs md:text-sm">
+            <a href="#projects" className="text-zinc-400 hover:text-white transition-colors interactive">
+              <ScrambleText text="/projects" />
+            </a>
+            <a href="#skills" className="text-zinc-400 hover:text-white transition-colors interactive">
+              <ScrambleText text="/skills" />
+            </a>
+            <a href="#contact" className="text-zinc-400 hover:text-white transition-colors interactive">
+              <ScrambleText text="/contact" />
+            </a>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h1 className="text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-              Building the
-              <span className="text-purple-400"> future </span>
-              one stack at a time
-            </h1>
-            
-            {/* Escaped apostrophes with &apos; */}
-            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-              I am a full stack developer crafting modern web experiences with new and emerging technologies. 
-              Currently focused on building innovative apps that solve real world problems and continuing my studies!
-            </p>
+      <section className="relative z-10 max-w-6xl mx-auto px-6 pt-16 pb-24 md:py-32 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        {/* Intro */}
+        <div className="lg:col-span-6 space-y-6 animate-hero-fade">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-950/20 text-xs font-mono text-purple-300">
+            <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+            I am currently accepting freelance work.
+          </div>
+          
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight">
+            Building the
+            <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-400 glow-title">
+              <ScrambleText text="future stack" />
+            </span>
+            one build at a time.
+          </h1>
 
-            <div className="flex flex-wrap gap-4 mb-8">
-              <a 
-                href="#projects"
-                className="bg-purple-400 hover:bg-purple-500 text-black font-semibold py-3 px-6 rounded-full transition-all duration-200 flex items-center gap-2"
-              >
-                View My Work <ArrowRight className="w-5 h-5" />
-              </a>
-              <a 
-                href="#contact" // Updated to anchor down to the new form
-                className="bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-semibold py-3 px-6 rounded-full transition-all duration-200 flex items-center gap-2"
-              >
-                <Mail className="w-5 h-5" /> Get In Touch
-              </a>
-            </div>
+          <p className="text-zinc-400 text-sm md:text-base leading-relaxed max-w-lg">
+            I am <strong className="text-white">Amber Parker</strong>, a full stack developer. I build websites and web applications using modern technologies. I focus on clean code and interactive designs.
+          </p>
 
-            {/* Social Links */}
-            <div className="flex gap-4">
-              <a href="https://github.com/ambxrp" className="text-gray-400 hover:text-white transition-colors">
-                <Github className="w-6 h-6" />
-              </a>
-              <a href="https://www.linkedin.com/in/amber-parker-2a3480229/" className="text-gray-400 hover:text-white transition-colors">
-                <Linkedin className="w-6 h-6" />
-              </a>
-            </div>
+          <div className="flex flex-wrap gap-4 pt-2">
+            <a 
+              href="#projects" 
+              className="px-6 py-3 rounded-xl bg-purple-500 hover:bg-purple-600 text-black font-mono text-xs font-bold transition-all flex items-center gap-1.5 interactive shadow-[0_0_15px_rgba(168,85,247,0.3)]"
+            >
+              Explore Projects <ArrowRight className="w-4 h-4" />
+            </a>
+            <a 
+              href="#contact" 
+              className="px-6 py-3 rounded-xl border border-zinc-700 bg-zinc-950/60 text-white font-mono text-xs hover:border-zinc-500 transition-colors flex items-center gap-1.5 interactive"
+            >
+              <Mail className="w-4 h-4" /> Connect
+            </a>
           </div>
 
-          <div className="relative">
-            <div className="bg-gray-800 border border-gray-700 rounded-3xl p-8">
-              <div className="text-center mb-6">
-                {/* Updated image syntax from previous fix */}
-                <div className="w-24 h-24 bg-purple-400 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl overflow-hidden">
-                    <Image 
-                    src="/amber-photo.png" 
-                    alt="Profile Picture" 
-                    width={96} 
-                    height={96} 
-                    className="object-cover object-top w-full h-full"
-                   />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Amber Parker</h3>
-                <p className="text-purple-400">Full Stack Developer</p>
-              </div>
-            </div>
+          <div className="flex items-center gap-4 pt-4">
+            <a 
+              href="https://github.com/ambxrp" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-zinc-500 hover:text-white transition-colors interactive"
+              aria-label="GitHub Profile"
+            >
+              <Github className="w-5 h-5" />
+            </a>
+            <a 
+              href="https://www.linkedin.com/in/amber-parker-2a3480229/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-zinc-500 hover:text-white transition-colors interactive"
+              aria-label="LinkedIn Profile"
+            >
+              <Linkedin className="w-5 h-5" />
+            </a>
           </div>
+        </div>
+
+        {/* Console Terminal */}
+        <div className="lg:col-span-6 animate-hero-fade-delayed">
+          <BuildConsole />
         </div>
       </section>
 
-      {/* Current Projects Section */}
-      <section id="projects" className="max-w-6xl mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">Current Projects</h2>
-          {/* Escaped apostrophes with &apos; */}
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Here&apos;s what I&apos;m currently building and the technologies I&apos;m working with
+      {/* Projects Grid Section (Alternating Sides) */}
+      <section id="projects" className="relative z-10 max-w-6xl mx-auto px-6 py-20 border-t border-zinc-900">
+        <div className="text-center mb-20 reveal-on-scroll">
+          <h2 className="text-3xl md:text-4xl font-bold font-mono tracking-wider flex justify-center items-center gap-2">
+            <Layers className="w-6 h-6 text-purple-400" />
+            <ScrambleText text="Projects" />
+          </h2>
+          <p className="text-zinc-500 text-xs md:text-sm font-mono mt-2 uppercase tracking-widest">
+            You can click on the cards to interact with the simulations.
           </p>
         </div>
 
-        <div className="grid gap-8">
-          {/* Typed parameters in .map() */}
-          {projects.map((project: Project) => (
-            <div 
-              key={project.id}
-              className="bg-gray-800 border border-gray-700 rounded-3xl p-8 hover:border-purple-400 transition-all duration-300"
-            >
-              <div className="grid lg:grid-cols-3 gap-8 items-center">
-                <div className="lg:col-span-2">
-                  <div className="flex items-center gap-4 mb-4">
-                    <span className="text-4xl">{project.image}</span>
-                    <div>
-                      <h3 className="text-2xl font-bold text-white">{project.title}</h3>
-                      <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
-                        project.status === 'Live' ? 'bg-green-900 text-green-300' :
-                        project.status === 'In Development' ? 'bg-blue-900 text-blue-300' :
-                        'bg-gray-700 text-gray-300'
-                      }`}>
-                        {project.status}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-300 mb-4">{project.description}</p>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.map((tech: string) => (
-                      <span 
-                        key={tech}
-                        className="bg-purple-900 text-purple-300 px-3 py-1 rounded-full text-sm"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  <ul className="space-y-2 mb-6">
-                    {project.highlights.map((highlight: string, idx: number) => (
-                      <li key={idx} className="flex items-center gap-2 text-gray-300">
-                        <Star className="w-4 h-4 text-purple-400" />
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="flex flex-col gap-4">
-                  {project.link !== '#' && (
-                    <a 
-                      href={project.link}
-                      className="bg-purple-400 hover:bg-purple-500 text-black font-semibold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
-                    >
-                      <ExternalLink className="w-5 h-5" />
-                      View Project
-                    </a>
-                  )}
-                  {project.github !== '#' && (
-                    <a 
-                      href={project.github}
-                      className="bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
-                    >
-                      <Github className="w-5 h-5" />
-                      Source Code
-                    </a>
-                  )}
-                </div>
+        <div className="space-y-32">
+          
+          {/* Project 1: filmbysabryna.com */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center reveal-on-scroll">
+            <div className="lg:col-span-5 space-y-5 lg:order-1">
+              <div className="flex items-center gap-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                <h3 className="text-2xl font-bold font-mono">
+                  <ScrambleText text="filmbysabryna.com" />
+                </h3>
+                <span className="text-[10px] bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 font-mono px-2 py-0.5 rounded">Live</span>
+              </div>
+              <p className="text-zinc-400 text-sm leading-relaxed">
+                I built a clean photography portfolio website for film photographer Sabryna. It loads fast and handles high resolution image layouts smoothly.
+              </p>
+              <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
+                {["Next.js", "React", "Tailwind CSS", "Vercel"].map(t => (
+                  <span key={t} className="px-2 py-0.5 bg-zinc-900 border border-zinc-800 rounded text-zinc-300">{t}</span>
+                ))}
+              </div>
+              <ul className="space-y-1.5 font-mono text-xs text-zinc-500">
+                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-purple-400 shrink-0" /> Interactive camera shutter simulator</li>
+                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-purple-400 shrink-0" /> Clean thirty five millimeter film strip previews</li>
+                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-purple-400 shrink-0" /> Optimized search engine visibility and image loading</li>
+              </ul>
+              <div className="pt-2 flex gap-3">
+                <a 
+                  href="https://filmbysabryna.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-mono flex items-center gap-1.5 interactive"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" /> Visit Site
+                </a>
               </div>
             </div>
-          ))}
+            <div className="lg:col-span-7 lg:order-2">
+              <PhotoViewer />
+            </div>
+          </div>
+
+          {/* Project 2: Baklava Queen */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center reveal-on-scroll">
+            <div className="lg:col-span-7 order-2 lg:order-1">
+              <BaklavaQueenSimulator />
+            </div>
+            <div className="lg:col-span-5 space-y-5 order-1 lg:order-2">
+              <div className="flex items-center gap-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-cyan-500 animate-pulse" />
+                <h3 className="text-2xl font-bold font-mono">
+                  <ScrambleText text="Baklava Queen" />
+                </h3>
+                <span className="text-[10px] bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 font-mono px-2 py-0.5 rounded">In Development</span>
+              </div>
+              <p className="text-zinc-400 text-sm leading-relaxed">
+                I am building a website for Baklava Queen, a local bakery in Boerne, Texas. The stack uses Next.js, Supabase, and Square for payments.
+              </p>
+              <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
+                {["Next.js", "Supabase", "Square API", "Resend API"].map(t => (
+                  <span key={t} className="px-2 py-0.5 bg-zinc-900 border border-zinc-800 rounded text-zinc-300">{t}</span>
+                ))}
+              </div>
+              <ul className="space-y-1.5 font-mono text-xs text-zinc-500">
+                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-cyan-400 shrink-0" /> Row level database security</li>
+                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-cyan-400 shrink-0" /> Square merchant payment integrations</li>
+                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-cyan-400 shrink-0" /> Automatic emails sent to owner and customer upon purchase</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Project 3: AC & Heating */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center reveal-on-scroll">
+            <div className="lg:col-span-5 space-y-5 lg:order-1">
+              <div className="flex items-center gap-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse" />
+                <h3 className="text-2xl font-bold font-mono">
+                  <ScrambleText text="A/C & Heating Business" />
+                </h3>
+                <span className="text-[10px] bg-amber-950/60 border border-amber-500/30 text-amber-400 font-mono px-2 py-0.5 rounded">In Development</span>
+              </div>
+              <p className="text-zinc-400 text-sm leading-relaxed">
+                I am building a website for a local air conditioning and heating company.
+              </p>
+              <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
+                {["Next.js", "React", "Tailwind CSS", "Map"].map(t => (
+                  <span key={t} className="px-2 py-0.5 bg-zinc-900 border border-zinc-800 rounded text-zinc-300">{t}</span>
+                ))}
+              </div>
+              <ul className="space-y-1.5 font-mono text-xs text-zinc-500">
+                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-amber-500 shrink-0" /> Thermostat simulator dial</li>
+                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-amber-500 shrink-0" /> Custom map integration for service area</li>
+                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-amber-500 shrink-0" /> Clean mobile friendly website</li>
+              </ul>
+            </div>
+            <div className="lg:col-span-7 lg:order-2">
+              <ThermostatSimulator />
+            </div>
+          </div>
+
+          {/* Project 4: StackBuildr Portfolio */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center reveal-on-scroll">
+            <div className="lg:col-span-7 order-2 lg:order-1">
+              <NodeGraph />
+            </div>
+            <div className="lg:col-span-5 space-y-5 order-1 lg:order-2">
+              <div className="flex items-center gap-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                <h3 className="text-2xl font-bold font-mono">
+                  <ScrambleText text="StackBuildr Portfolio" />
+                </h3>
+                <span className="text-[10px] bg-purple-950/60 border border-purple-500/30 text-purple-400 font-mono px-2 py-0.5 rounded">Live</span>
+              </div>
+              <p className="text-zinc-400 text-sm leading-relaxed">
+                This is my personal portfolio website. I built it to showcase my projects and play around with interactive animations.
+              </p>
+              <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
+                {["Next.js", "React", "HTML5 Canvas", "Lucide Icons"].map(t => (
+                  <span key={t} className="px-2 py-0.5 bg-zinc-900 border border-zinc-800 rounded text-zinc-300">{t}</span>
+                ))}
+              </div>
+              <ul className="space-y-1.5 font-mono text-xs text-zinc-500">
+                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-purple-400 shrink-0" /> Particle constellation background</li>
+                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-purple-400 shrink-0" /> Simulated terminal console</li>
+                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-purple-400 shrink-0" /> Custom interactive cursor follower</li>
+              </ul>
+              <div className="pt-2">
+                <a 
+                  href="https://github.com/ambxrp/stackbuildr-freelance" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-mono inline-flex items-center gap-1.5 interactive"
+                >
+                  <Github className="w-3.5 h-3.5" /> Source Code
+                </a>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="max-w-6xl mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">Technical Skills</h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            The technologies and tools I use to bring ideas to life
+      <section id="skills" className="relative z-10 max-w-6xl mx-auto px-6 py-20 border-t border-zinc-900">
+        <div className="text-center mb-16 reveal-on-scroll">
+          <h2 className="text-3xl md:text-4xl font-bold font-mono tracking-wider flex justify-center items-center gap-2">
+            <TerminalIcon className="w-6 h-6 text-cyan-400" />
+            <ScrambleText text="Skills" />
+          </h2>
+          <p className="text-zinc-500 text-xs md:text-sm font-mono mt-2 uppercase tracking-widest">
+            These are the technologies and tools I use to build my web projects.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Typed parameters in .map() */}
-          {skills.map((skill: Skill) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {skills.map((skill, idx) => (
             <div 
               key={skill.category}
-              className="bg-gray-800 border border-gray-700 rounded-2xl p-6 hover:border-purple-400 transition-all duration-300"
+              style={{ transitionDelay: `${idx * 0.05}s` }}
+              className="reveal-on-scroll bg-zinc-950/40 border border-zinc-900 rounded-2xl p-6 glow-purple hover:border-purple-500/40 hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 group"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="text-purple-400">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 rounded-lg bg-zinc-900/80 border border-zinc-800 group-hover:scale-110 transition-transform">
                   {skill.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-white">{skill.category}</h3>
+                <h3 className="text-sm font-bold font-mono tracking-wider text-white uppercase">{skill.category}</h3>
               </div>
-              
+
               <div className="space-y-2">
-                {skill.technologies.map((tech: string) => (
+                {skill.technologies.map(tech => (
                   <div 
                     key={tech}
-                    className="text-gray-300 py-1 px-3 bg-gray-700 rounded-lg text-sm"
+                    className="font-mono text-xs text-zinc-400 py-1.5 px-3 bg-zinc-950/80 border border-zinc-900/60 rounded-lg group-hover:text-zinc-200 transition-colors"
                   >
                     {tech}
                   </div>
@@ -330,32 +425,57 @@ export default function StackBuildr() {
         </div>
       </section>
 
-      {/* Contact Section - Now using the integrated Turnstile Component */}
-      <section id="contact" className="max-w-6xl mx-auto px-6 py-20">
-        <div className="bg-gray-800 border border-gray-700 rounded-3xl p-12">
-          <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold text-white mb-4">Let&apos;s Build Something Amazing</h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Have an exciting project in mind? I&apos;m always interested in discussing new opportunities and innovative ideas.
+      {/* Profile Picture Highlight Card */}
+      <section className="relative z-10 max-w-4xl mx-auto px-6 py-12 reveal-on-scroll">
+        <div className="bg-zinc-950/40 border border-purple-500/10 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 shadow-xl">
+          <div className="relative w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden border-2 border-purple-500/30 p-1 bg-black/60 shadow-[0_0_20px_rgba(168,85,247,0.2)] shrink-0">
+            <div className="w-full h-full rounded-full overflow-hidden bg-zinc-900 relative">
+              <Image 
+                src="/amber-photo.png" 
+                alt="Amber Parker Profile" 
+                fill
+                sizes="(max-width: 768px) 128px, 144px"
+                className="object-cover object-top hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+          </div>
+          <div className="space-y-3 text-center md:text-left">
+            <h4 className="text-2xl font-bold font-mono text-white">Amber Parker</h4>
+            <p className="text-purple-400 font-mono text-xs uppercase tracking-widest">Full Stack Developer</p>
+            <p className="text-zinc-400 text-sm leading-relaxed font-sans max-w-xl">
+              I study computer science and build web applications. I like working with Next.js, Supabase, Resend, Cloudfare, and much more. I am always trying to learn new coding frameworks and technologies. I love working on new projects!
             </p>
           </div>
-          
-          {/* Injected Contact Form Here */}
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="relative z-10 max-w-4xl mx-auto px-6 py-20 border-t border-zinc-900 reveal-on-scroll">
+        <div className="bg-zinc-950/40 border border-purple-500/15 rounded-3xl p-8 md:p-12 shadow-xl glow-cyan">
+          <div className="text-center mb-10 space-y-2">
+            <h2 className="text-3xl font-bold font-mono tracking-tight text-white flex justify-center items-center gap-2">
+              <Mail className="w-6 h-6 text-cyan-400 animate-pulse" />
+              <ScrambleText text="Contact" />
+            </h2>
+            <p className="text-zinc-400 text-xs md:text-sm max-w-md mx-auto">
+              Send me a message if you want to work together on a project.
+            </p>
+          </div>
+
           <div className="max-w-md mx-auto">
             <ContactForm />
           </div>
-          
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-800 mt-20 py-8">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <div className="text-2xl font-bold text-white mb-4">
-            Stack<span className="text-purple-400">Buildr</span>
+      <footer className="relative z-10 border-t border-zinc-900 py-12">
+        <div className="max-w-6xl mx-auto px-6 text-center space-y-4">
+          <div className="text-lg font-mono font-bold tracking-wider text-white">
+            Stack<span className="text-cyan-400">Buildr</span>
           </div>
-          <p className="text-gray-400">
-            © {new Date().getFullYear()} StackBuildr. Building the future, one project at a time.
+          <p className="text-xs text-zinc-600 font-mono">
+            © {new Date().getFullYear()} STACKBUILDR // ALL CODES COMPILED AND SECURED.
           </p>
         </div>
       </footer>
