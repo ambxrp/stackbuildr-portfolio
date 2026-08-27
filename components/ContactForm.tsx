@@ -106,7 +106,7 @@ export default function ContactForm() {
       <button 
         type="submit" 
         disabled={!turnstileToken || isSubmitting}
-        className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-black font-bold font-mono py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed interactive shadow-[0_0_15px_rgba(168,85,247,0.15)] active:scale-[0.98]"
+        className="w-full bg-purple-500 hover:bg-purple-600 text-black font-bold font-mono py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed interactive shadow-[0_0_15px_rgba(168,85,247,0.15)] active:scale-[0.98]"
       >
         <Send className="w-4 h-4" />
         {isSubmitting ? 'Sending' : 'Send Message'}

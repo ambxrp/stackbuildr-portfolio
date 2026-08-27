@@ -39,7 +39,7 @@ export default function ThermostatSimulator() {
       <div className="flex justify-between items-center border-b border-zinc-800/40 pb-2">
         <span className="text-[10px] text-zinc-500 uppercase tracking-widest">Climate Control Simulator</span>
         <div className="flex items-center gap-1">
-          {mode === 'cool' && <Snowflake className="w-3.5 h-3.5 text-sky-400 animate-spin" style={{ animationDuration: '6s' }} />}
+          {mode === 'cool' && <Snowflake className="w-3.5 h-3.5 text-sky-400 animate-spin" style={{ animationDuration: '4s' }} />}
           {mode === 'heat' && <Flame className="w-3.5 h-3.5 text-amber-500 animate-pulse" />}
           {mode === 'eco' && <Leaf className="w-3.5 h-3.5 text-emerald-400 animate-bounce" style={{ animationDuration: '3s' }} />}
           <span className="text-[9px] uppercase font-bold">
@@ -71,9 +71,9 @@ export default function ThermostatSimulator() {
       {/* Sandbox Log Screen */}
       <div className="bg-black/80 border border-zinc-900/60 p-2.5 rounded-lg text-[10px] text-zinc-400 leading-tight z-10">
         <span className="text-purple-400 font-bold">$ </span>
-        {mode === 'cool' && `HVAC: Compressor engaged. Blowing cool air at ${temp}°F.`}
-        {mode === 'heat' && `HVAC: Furnace cycle started. Blowing heat at ${temp}°F.`}
-        {mode === 'eco' && `HVAC: Ambient comfort reached. Fan running at low-wattage (72W).`}
+        {mode === 'cool' && `HVAC: Blowing cool air at ${temp}°F.`}
+        {mode === 'heat' && `HVAC: Blowing heat at ${temp}°F.`}
+        {mode === 'eco' && `HVAC: Fan running at low wattage (72W).`}
       </div>
 
       {/* Thermostat central dial */}

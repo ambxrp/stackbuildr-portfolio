@@ -18,15 +18,13 @@ import {
 import Image from 'next/image';
 
 // Component Imports
+import Navbar from '@/components/Navbar';
 import ContactForm from '@/components/ContactForm';
 import InteractiveBackground from '@/components/InteractiveBackground';
-import CustomCursor from '@/components/CustomCursor';
 import BuildConsole from '@/components/BuildConsole';
-import PhotoViewer from '@/components/PhotoViewer';
 import BaklavaQueenSimulator from '@/components/BaklavaQueenSimulator';
 import ThermostatSimulator from '@/components/ThermostatSimulator';
 import NodeGraph from '@/components/NodeGraph';
-import ScrambleText from '@/components/ScrambleText';
 
 const Github = ({ className }: { className?: string }) => (
   <svg
@@ -137,9 +135,6 @@ export default function StackBuildr() {
       {/* Interactive Canvas Background */}
       <InteractiveBackground />
 
-      {/* Custom Follower Cursor */}
-      <CustomCursor />
-
       {/* Scroll Progress Indicator */}
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
 
@@ -147,25 +142,7 @@ export default function StackBuildr() {
       <div className="absolute inset-0 grid-bg pointer-events-none z-0" />
 
       {/* Navigation Header */}
-      <nav className="sticky top-0 z-40 w-full border-b border-purple-500/10 bg-black/60 backdrop-blur-md">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
-          <div className="text-base sm:text-xl font-mono font-bold tracking-wider text-white flex items-center gap-1.5 sm:gap-2 select-none">
-            <Cpu className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 animate-pulse" />
-            Stack<span className="text-cyan-400">Buildr</span>
-          </div>
-          <div className="flex gap-3 sm:gap-6 font-mono text-[10px] sm:text-xs md:text-sm">
-            <a href="#projects" className="text-zinc-400 hover:text-white transition-colors interactive">
-              <ScrambleText text="/projects" />
-            </a>
-            <a href="#skills" className="text-zinc-400 hover:text-white transition-colors interactive">
-              <ScrambleText text="/skills" />
-            </a>
-            <a href="#contact" className="text-zinc-400 hover:text-white transition-colors interactive">
-              <ScrambleText text="/contact" />
-            </a>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <section className="relative z-10 max-w-6xl mx-auto px-6 pt-16 pb-24 md:py-32 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -178,8 +155,8 @@ export default function StackBuildr() {
           
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight">
             Building the
-            <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-400 glow-title">
-              <ScrambleText text="future stack" />
+            <span className="block mt-1 text-purple-400 glow-title">
+              future stack
             </span>
             one build at a time.
           </h1>
@@ -236,7 +213,7 @@ export default function StackBuildr() {
         <div className="text-center mb-20 reveal-on-scroll">
           <h2 className="text-3xl md:text-4xl font-bold font-mono tracking-wider flex justify-center items-center gap-2">
             <Layers className="w-6 h-6 text-purple-400" />
-            <ScrambleText text="Projects" />
+            Projects
           </h2>
           <p className="text-zinc-500 text-xs md:text-sm font-mono mt-2 uppercase tracking-widest">
             You can click on the cards to interact with the simulations.
@@ -246,41 +223,36 @@ export default function StackBuildr() {
         <div className="space-y-32">
           
           {/* Project 1: filmbysabryna.com */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center reveal-on-scroll">
-            <div className="lg:col-span-5 space-y-5 lg:order-1">
-              <div className="flex items-center gap-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                <h3 className="text-2xl font-bold font-mono">
-                  <ScrambleText text="filmbysabryna.com" />
-                </h3>
-                <span className="text-[10px] bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 font-mono px-2 py-0.5 rounded">Live</span>
-              </div>
-              <p className="text-zinc-400 text-sm leading-relaxed">
-                I built a clean photography portfolio website for film photographer Sabryna. It loads fast and handles high resolution image layouts smoothly.
-              </p>
-              <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
-                {["Next.js", "React", "Tailwind CSS", "Vercel"].map(t => (
-                  <span key={t} className="px-2 py-0.5 bg-zinc-900 border border-zinc-800 rounded text-zinc-300">{t}</span>
-                ))}
-              </div>
-              <ul className="space-y-1.5 font-mono text-xs text-zinc-500">
-                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-purple-400 shrink-0" /> Interactive camera shutter simulator</li>
-                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-purple-400 shrink-0" /> Clean thirty five millimeter film strip previews</li>
-                <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-purple-400 shrink-0" /> Optimized search engine visibility and image loading</li>
-              </ul>
-              <div className="pt-2 flex gap-3">
-                <a 
-                  href="https://filmbysabryna.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-mono flex items-center gap-1.5 interactive"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" /> Visit Site
-                </a>
-              </div>
+          <div className="max-w-3xl mx-auto space-y-5 reveal-on-scroll bg-zinc-950/20 border border-zinc-900/60 p-6 sm:p-8 rounded-2xl">
+            <div className="flex items-center gap-3">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+              <h3 className="text-2xl font-bold font-mono">
+                filmbysabryna.com
+              </h3>
+              <span className="text-[10px] bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 font-mono px-2 py-0.5 rounded">Live</span>
             </div>
-            <div className="lg:col-span-7 lg:order-2">
-              <PhotoViewer />
+            <p className="text-zinc-400 text-sm leading-relaxed">
+              I built a clean photography portfolio website for photographer. It has a contact form, pricing menu with services, and handles high resolution image layouts smoothly.
+            </p>
+            <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
+              {["Next.js", "React", "Tailwind CSS", "Vercel"].map(t => (
+                <span key={t} className="px-2 py-0.5 bg-zinc-900 border border-zinc-800 rounded text-zinc-300">{t}</span>
+              ))}
+            </div>
+            <ul className="space-y-1.5 font-mono text-xs text-zinc-500">
+              <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-purple-400 shrink-0" /> Interactive camera shutter simulator</li>
+              <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-purple-400 shrink-0" /> Clean thirty five millimeter film strip previews</li>
+              <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-purple-400 shrink-0" /> Optimized search engine visibility and image loading</li>
+            </ul>
+            <div className="pt-2 flex gap-3">
+              <a 
+                href="https://filmbysabryna.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-mono flex items-center gap-1.5 interactive"
+              >
+                <ExternalLink className="w-3.5 h-3.5" /> Visit Site
+              </a>
             </div>
           </div>
 
@@ -291,14 +263,14 @@ export default function StackBuildr() {
             </div>
             <div className="lg:col-span-5 space-y-5 order-1 lg:order-2">
               <div className="flex items-center gap-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-cyan-500 animate-pulse" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                 <h3 className="text-2xl font-bold font-mono">
-                  <ScrambleText text="Baklava Queen" />
+                  Baklava Queen
                 </h3>
-                <span className="text-[10px] bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 font-mono px-2 py-0.5 rounded">In Development</span>
+                <span className="text-[10px] bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 font-mono px-2 py-0.5 rounded">Live</span>
               </div>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                I am building a website for Baklava Queen, a local bakery in Boerne, Texas. The stack uses Next.js, Supabase, and Square for payments.
+                I built a website for Baklava Queen, a local bakery in Boerne, Texas. The stack uses Next.js, Supabase, and Square for payments.
               </p>
               <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
                 {["Next.js", "Supabase", "Square API", "Resend API"].map(t => (
@@ -310,6 +282,16 @@ export default function StackBuildr() {
                 <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-cyan-400 shrink-0" /> Square merchant payment integrations</li>
                 <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-cyan-400 shrink-0" /> Automatic emails sent to owner and customer upon purchase</li>
               </ul>
+              <div className="pt-2">
+                <a 
+                  href="https://baklavaqueen.store" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-mono inline-flex items-center gap-1.5 interactive"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" /> Visit Site
+                </a>
+              </div>
             </div>
           </div>
 
@@ -317,14 +299,14 @@ export default function StackBuildr() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center reveal-on-scroll">
             <div className="lg:col-span-5 space-y-5 lg:order-1">
               <div className="flex items-center gap-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                 <h3 className="text-2xl font-bold font-mono">
-                  <ScrambleText text="A/C & Heating Business" />
+                  A+ Air Conditioning & Heating
                 </h3>
-                <span className="text-[10px] bg-amber-950/60 border border-amber-500/30 text-amber-400 font-mono px-2 py-0.5 rounded">In Development</span>
+                <span className="text-[10px] bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 font-mono px-2 py-0.5 rounded">Live</span>
               </div>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                I am building a website for a local air conditioning and heating company.
+                I built a website for A+ Air Conditioning & Heating, a local air conditioning and heating company in San Antonio, Texas.
               </p>
               <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
                 {["Next.js", "React", "Tailwind CSS", "Map"].map(t => (
@@ -336,6 +318,16 @@ export default function StackBuildr() {
                 <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-amber-500 shrink-0" /> Custom map integration for service area</li>
                 <li className="flex items-center gap-2"><Star className="w-3.5 h-3.5 text-amber-500 shrink-0" /> Clean mobile friendly website</li>
               </ul>
+              <div className="pt-2">
+                <a 
+                  href="https://aplsac.us" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-mono inline-flex items-center gap-1.5 interactive"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" /> Visit Site
+                </a>
+              </div>
             </div>
             <div className="lg:col-span-7 lg:order-2">
               <ThermostatSimulator />
@@ -349,11 +341,11 @@ export default function StackBuildr() {
             </div>
             <div className="lg:col-span-5 space-y-5 order-1 lg:order-2">
               <div className="flex items-center gap-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                 <h3 className="text-2xl font-bold font-mono">
-                  <ScrambleText text="StackBuildr Portfolio" />
+                  StackBuildr Portfolio
                 </h3>
-                <span className="text-[10px] bg-purple-950/60 border border-purple-500/30 text-purple-400 font-mono px-2 py-0.5 rounded">Live</span>
+                <span className="text-[10px] bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 font-mono px-2 py-0.5 rounded">Live</span>
               </div>
               <p className="text-zinc-400 text-sm leading-relaxed">
                 This is my personal portfolio website. I built it to showcase my projects and play around with interactive animations.
@@ -389,7 +381,7 @@ export default function StackBuildr() {
         <div className="text-center mb-16 reveal-on-scroll">
           <h2 className="text-3xl md:text-4xl font-bold font-mono tracking-wider flex justify-center items-center gap-2">
             <TerminalIcon className="w-6 h-6 text-cyan-400" />
-            <ScrambleText text="Skills" />
+            Skills
           </h2>
           <p className="text-zinc-500 text-xs md:text-sm font-mono mt-2 uppercase tracking-widest">
             These are the technologies and tools I use to build my web projects.
@@ -455,7 +447,7 @@ export default function StackBuildr() {
           <div className="text-center mb-10 space-y-2">
             <h2 className="text-3xl font-bold font-mono tracking-tight text-white flex justify-center items-center gap-2">
               <Mail className="w-6 h-6 text-cyan-400 animate-pulse" />
-              <ScrambleText text="Contact" />
+              Contact
             </h2>
             <p className="text-zinc-400 text-xs md:text-sm max-w-md mx-auto">
               Send me a message if you want to work together on a project.
@@ -471,11 +463,14 @@ export default function StackBuildr() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-zinc-900 py-12">
         <div className="max-w-6xl mx-auto px-6 text-center space-y-4">
-          <div className="text-lg font-mono font-bold tracking-wider text-white">
-            Stack<span className="text-cyan-400">Buildr</span>
+          <div className="flex justify-center items-center gap-2 select-none">
+            <Cpu className="w-5 h-5 text-purple-400 animate-pulse" />
+            <span className="text-2xl font-bold tracking-wider led-font led-text">
+              stackbuildr
+            </span>
           </div>
           <p className="text-xs text-zinc-600 font-mono">
-            © {new Date().getFullYear()} STACKBUILDR // ALL CODES COMPILED AND SECURED.
+            DESIGNED & COMPILED BY AMBER PARKER // {new Date().getFullYear()}
           </p>
         </div>
       </footer>

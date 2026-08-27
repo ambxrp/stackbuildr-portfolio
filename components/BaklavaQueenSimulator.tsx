@@ -96,7 +96,7 @@ export default function BaklavaQueenSimulator() {
             </div>
             <button
               onClick={runCheckout}
-              className="w-full py-2 bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 active:scale-98 text-black font-bold text-[11px] sm:text-xs rounded-lg transition-all flex items-center justify-center gap-1.5 interactive shadow-[0_0_15px_rgba(168,85,247,0.2)]"
+              className="w-full py-2 bg-purple-500 hover:bg-purple-600 active:scale-98 text-black font-bold text-[11px] sm:text-xs rounded-lg transition-all flex items-center justify-center gap-1.5 interactive shadow-[0_0_15px_rgba(168,85,247,0.2)]"
             >
               <ShoppingBag className="w-3.5 h-3.5" />
               Order & Pay (Test Gateway)
